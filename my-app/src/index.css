@@ -1,0 +1,15 @@
+@import "tailwindcss";
+/* You can add custom styles below if needed */
+
+:root{
+    --bg1: hsl(0,0%,10%);
+    --bg2: hsl(0,0%,15%);
+    --bg3: hsl(0,0%,20%);
+    --primary: hsl(40,100%,50%);
+    --text1: hsl(0,0%,100%);
+    --text2: hsl(0,0%,90%);
+}
+body {
+    color: var(--text1);
+    background-color: var(--bg1);
+}
