@@ -8,7 +8,7 @@ export default function Nav() {
                 <li className="flex-1"><Link to="/" className="text-(--text1) hover:text-(--primary) text-sm md:text-base lg:text-lg xl:text-xl flex flex-col items-center gap-2 p-3"><i className="fas fa-house-chimney"></i>Home</Link></li>
                 <li className="flex-1"><Link to="/menu" className="text-(--text1) hover:text-(--primary) text-sm md:text-base lg:text-lg xl:text-xl flex flex-col items-center gap-2 p-3"><i className="fas fa-utensils"></i>Menu</Link></li>
                 <li className="flex-1"><Link to="/location" className="text-(--text1) hover:text-(--primary) text-sm md:text-base lg:text-lg xl:text-xl flex flex-col items-center gap-2 p-3"><i className="fas fa-location-dot"></i>Location</Link></li>
-                <li className="flex-1"><Link to="/reservation" className="text-(--text1) hover:text-(--primary) text-sm md:text-base lg:text-lg xl:text-xl flex flex-col items-center gap-2 p-3"><i className="fas fa-bookmark"></i>Reservation</Link></li>
+                <li className="flex-1"><Link to="/adminpage" className="text-(--text1) hover:text-(--primary) text-sm md:text-base lg:text-lg xl:text-xl flex flex-col items-center gap-2 p-3"><i className="fas fa-bookmark"></i>Reservation</Link></li>
             </ul>
         </div>
         </>

@@ -27,7 +27,7 @@ export default function Footer() {
         {/* Contact */}
         <div>
           <h2 className="font-semibold mb-2">Contact</h2>
-          <p>Email: contact@tawqibistro.com</p>
+          <p>Email: contact@gmal.com</p>
           <p>Phone: +880 1234-567890</p>
         </div>
 

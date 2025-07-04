@@ -12,7 +12,7 @@ export default function Home() {
             <h1 className='text-[2.7rem] font-bold text-center'>The <span className='text-(--primary)'>Local</span> Bite</h1>
             <p className='text-center text-(--text2) font-semibold'>Serving fresh, flavorful dishes made with local ingredients in a warm, welcoming space.</p>
         </div>
-        <div className="sec2 mt-10 mx-5 flex flex-col gap-5">
+        <div className="sec2 mt-10 mx-5 flex flex-col gap-[5vw]">
             <h1 className='text-3xl font-bold'>Popular Dishes</h1>
             <Card />
             <div className="flex ">

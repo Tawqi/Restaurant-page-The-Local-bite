@@ -13,3 +13,7 @@ body {
     color: var(--text1);
     background-color: var(--bg1);
 }
+input:focus {
+  outline: none;
+  box-shadow: none;
+}

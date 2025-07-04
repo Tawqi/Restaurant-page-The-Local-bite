@@ -4,6 +4,7 @@ import Menu from './pages/menu'
 import Location from './pages/location'
 import About from './pages/about'
 import Reservation from './pages/reservation'
+import AdminPage from './pages/adminPage'
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <Route path='/menu' element={<Menu/>} />
       <Route path='/location' element={<Location/>} />
       <Route path='/about' element={<About/>} />
-      <Route path='/reservaiton' element={<Reservation/>} />
+      <Route path='/reservation' element={<Reservation/>} />
+      <Route path='/adminpage' element={<AdminPage />} />
      </Routes>
     </>
   )

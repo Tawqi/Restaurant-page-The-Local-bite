@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>Admin Page</nav>
+  <div class="sec1">
+    <div class="form">
+      <h1>Add New Product</h1>
+      <p>Fill up the form to add new product</p>
+      <form action="/addProduct" method="post">
+        <label for="name">Product Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Product name"
+          required
+        />
+
+        <label for="cate">Category</label>
+        <input
+          id="cate"
+          name="category"
+          type="text"
+          placeholder="category (comma-separated)"
+          required
+        />
+
+        <label for="ing">Ingredients</label>
+        <input
+          id="ing"
+          name="ingredients"
+          type="text"
+          placeholder="Ingredients (comma-separated)"
+          required
+        />
+
+        <label for="desc">Description</label>
+        <input
+          id="desc"
+          name="description"
+          type="text"
+          placeholder="Description"
+        />
+
+        <label for="price"><i class="fa-solid fa-bangladeshi-taka-sign"></i> Price</label>
+        <input
+          id="price"
+          name="price"
+          type="number"
+          placeholder="Price"
+          step="0.01"
+          required
+        />
+
+        <label for="image">Image URL</label>
+        <input
+          id="image"
+          name="image"
+          type="url"
+          placeholder="Image URL"
+        />
+
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            name="available"
+            id="available"
+            value="true"
+          />
+          <span>Available</span>
+        </label>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>
+</html>
