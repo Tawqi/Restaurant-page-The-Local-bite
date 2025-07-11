@@ -1,6 +1,6 @@
-
 export default function AdminPage() {
   return (
+    
     <>
     <nav className="flex justify-center p-3 bg-(--primary) text-3xl font-bold">Admin Page</nav>
     <div className="sec1 flex m-5">
