@@ -5,16 +5,17 @@ import { Link } from 'react-router-dom';
 import Nav from '../components/Nav'
 import Card from '../components/card'
 import Footer from '../components/footer'
-import herobg from '../contents/pexels-pixabay-262918.jpg';
+import heroBG from '../contents/pexels-pixabay-262918.jpg';
 
 export default function Home() {
 const [dishes, setDishes] = useState({});
-  const [categories, setCategories] = useState(["Special"]); // or fetch from backend later
+const [categories, setCategories] = useState(["Special"]); // or fetch from backend later
 
   useEffect(() => {
     if (categories.length === 0) return;
 
     categories.forEach(category => {
+      console.log('Fetching category:', category);
       axios.get(`/api/fooditems/${category}`)
         .then(res => {
           setDishes(prev => ({
@@ -29,15 +30,15 @@ const [dishes, setDishes] = useState({});
         <>
         <Nav />
         <div className="heroSec bg-cover bg-center h-[85vh] rounded-b-2xl text-shadow-2xs flex flex-col items-center justify-center"
-        style={{ backgroundImage: `url(${herobg})` }} >
-            <h1 className='text-[2.7rem] font-bold text-center'>The <span className='text-(--primary)'>Local</span> Bite</h1>
-            <p className='text-center text-(--text2) font-semibold'>Serving fresh, flavorful dishes made with local ingredients in a warm, welcoming space.</p>
+        style={{ backgroundImage: `url(${heroBG})` }} >
+            <h1 className='text-[2.7rem] font-bold text-center lg:text-[4rem]'>The <span className='text-(--primary)'>Local</span> Bite</h1>
+            <p className='text-center text-(--text2) font-semibold text-shadow lg:text-[1.4rem]'>Serving fresh, flavorful dishes made with local ingredients in a warm, welcoming space.</p>
         </div>
-        <div className="sec2_Popular_Dishes mt-10 mx-5 flex flex-col gap-[5vw]">
+        <div className="sec2_Popular_Dishes mt-10 mx-5 flex flex-col gap-6">
             <h1 className='text-3xl font-bold'>Popular Dishes</h1>
         <div className="special_cate flex gap-4 flex-wrap">
-          {dishes["Special"]?.length > 0 ? (
-            dishes["Special"].map(food => (
+          {dishes[categories]?.length > 0 ? (
+            dishes[categories].map(food => (
               <Link key={food._id} to={`/product/${food._id}`}>
                 <Card food={food} />
               </Link>
@@ -47,14 +48,18 @@ const [dishes, setDishes] = useState({});
           )}
         </div>
             <div className="flex ">
-                <button className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 shadow'>View More</button>
+                <Link to="/menu"
+                className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 px-5 shadow'>
+                  View More</Link>
             </div> 
         </div>
         <div className="sec3_Reservation mt-10 mx-5 flex flex-col gap-5">
             <h1 className='text-3xl font-bold'>Reserve Your Table</h1>
             <p className='font-light text-(--text2)'>Book your spot in seconds and enjoy a hassle-free dining experience.</p>
             <div className="flex ">
-             <button className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 shadow'>Make Reservation</button>
+             <Link to="/reservation"
+             className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 shadow'>
+              Make Reservation</Link>
             </div>
         </div>
         <div className="sec4_location mt-10 mx-5 flex flex-col gap-5">
