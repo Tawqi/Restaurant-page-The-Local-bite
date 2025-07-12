@@ -49,7 +49,7 @@ const [categories, setCategories] = useState(["Special"]); // or fetch from back
         </div>
             <div className="flex ">
                 <Link to="/menu"
-                className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 px-5 shadow'>
+                className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 px-5 shadow transition transform hover:scale-105 duration-300 ease-in-out'>
                   View More</Link>
             </div> 
         </div>
@@ -58,7 +58,7 @@ const [categories, setCategories] = useState(["Special"]); // or fetch from back
             <p className='font-light text-(--text2)'>Book your spot in seconds and enjoy a hassle-free dining experience.</p>
             <div className="flex ">
              <Link to="/reservation"
-             className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 shadow'>
+             className='font-bold text-center text-(--bg1) bg-(--primary) rounded-2xl text-lg p-3 shadow transition transform hover:scale-105 duration-300 ease-in-out'>
               Make Reservation</Link>
             </div>
         </div>

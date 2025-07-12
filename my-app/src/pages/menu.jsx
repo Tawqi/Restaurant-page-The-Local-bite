@@ -3,43 +3,49 @@ import Nav from "../components/Nav";
 import Card from "../components/card";
 import Footer from "../components/footer";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Menu() {
   const [categories, setCategories] = useState([]);
-const [cleanCategories, setCleanCategories] = useState([]);
-const [dishes, setDishes] = useState({});
-const [on, setOn] = useState(false);
+  const [cleanCategories, setCleanCategories] = useState([]);
+  const [dishes, setDishes] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState(""); // search state
 
-
-useEffect(() => {
-  axios.get('/api/categories')
-    .then(res => {
-      setCategories(res.data);
-      // Clean & flatten here once
-      const uniqueCats = [...new Set(
-        res.data.flatMap(cat => cat.split(',').map(c => c.trim()))
-      )];
-      setCleanCategories(uniqueCats);
-    })
-    .catch(err => console.error("Error fetching categories:", err));
-}, []);
-
-useEffect(() => {
-  if (cleanCategories.length === 0) return;
-
-  cleanCategories.forEach(category => {
-    axios.get(`/api/fooditems/${category}`)
+  useEffect(() => {
+    axios.get('/api/categories')
       .then(res => {
-        setDishes(prev => ({
-          ...prev,
-          [category]: res.data
-        }));
+        const uniqueCats = [...new Set(
+          res.data.flatMap(cat => cat.split(',').map(c => c.trim()))
+        )];
+        setCleanCategories(["All", ...uniqueCats]);
       })
-      .catch(err => console.error(`Error fetching dishes for ${category}:`, err));
-  });
-}, [cleanCategories]);
+      .catch(err => console.error("Error fetching categories:", err));
+  }, []);
 
+  useEffect(() => {
+    if (cleanCategories.length === 0) return;
+
+    cleanCategories.forEach(category => {
+      if(category === "All") return; // no need to fetch for 'All'
+      axios.get(`/api/fooditems/${category}`)
+        .then(res => {
+          setDishes(prev => ({
+            ...prev,
+            [category]: res.data
+          }));
+        })
+        .catch(err => console.error(`Error fetching dishes for ${category}:`, err));
+    });
+  }, [cleanCategories]);
+
+  // Helper to filter dishes by searchTerm
+  function filterDishes(items) {
+    if (!searchTerm) return items;
+    return items.filter(food =>
+      food.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
   return (
     <>
@@ -50,41 +56,66 @@ useEffect(() => {
           <p className="text-(--text2) font-light">
             Explore our variety of delicious dishes, made fresh with quality ingredients.
           </p>
-          <div className="search flex items-center border border-(--primary) px-2 py-1 rounded-xl">
+          <div className="search flex items-center border border-(--primary) px-2 py-1 md:px-4 md:py-2 md:text-xl rounded-xl">
             <i className="fas fa-magnifying-glass"></i>
-            <input className="px-3 w-full" type="text" placeholder="Search here....." />
+            <input
+              className="px-3 w-full"
+              type="text"
+              placeholder="Search here....."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <div className="cate flex gap-2">
-            <button
-              className={`flex px-4 py-2 rounded-xl items-center justify-center ${
-                on ? "bg-(--primary)" : "bg-(--bg2)"
-              }`}
-              onClick={() => setOn(!on)}
-            >
-              All
-            </button>
+          <div className="cate flex flex-wrap gap-2">
+            {cleanCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-xl ${
+                  selectedCategory === cat ? "bg-(--primary) text-white" : "bg-(--bg2)"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Dynamic categories */}
-        <div className="sec2 flex flex-col gap-5">
-          {cleanCategories.map(category => (
-            <div key={category} className="flex flex-col gap-5">
-              <h1 className="text-2xl font-semibold">{category}</h1>
-              <div className="flex flex-wrap justify-between gap-2">
-                {dishes[category]?.length > 0 ? (
-                  dishes[category].map(food => (
-                    <Link key={food._id} to={`/product/${food._id}`}>
-                      <Card food={food} />
-                    </Link>
-                  ))
-                ) : (
-                  <p className="text-sm text-gray-400">No items found.</p>
-                )}
-              </div>
+        {selectedCategory === "All" ? (
+          cleanCategories
+            .filter(cat => cat !== "All")
+            .map(cat => {
+              const filteredFoods = filterDishes(dishes[cat] || []);
+              return (
+                <div key={cat} className="flex flex-col gap-5">
+                  <h2 className="text-2xl font-semibold">{cat}</h2>
+                  <div className="flex flex-wrap gap-4">
+                    {filteredFoods.length > 0 ? (
+                      filteredFoods.map(food => (
+                        <Link key={food._id} to={`/product/${food._id}`}>
+                          <Card food={food} />
+                        </Link>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-400">No items found.</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+        ) : (
+          <div className="flex flex-col gap-5">
+            <h1 className="text-2xl font-semibold">{selectedCategory}</h1>
+            <div className="flex flex-wrap gap-4">
+              {filterDishes(dishes[selectedCategory] || []).map(food => (
+                <Link key={food._id} to={`/product/${food._id}`}>
+                  <Card food={food} />
+                </Link>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>

@@ -53,7 +53,7 @@ useEffect(() => {
           className="flex bg-(--bg2) text-white px-8 py-5 rounded md:hidden">
           <i className="fas fa-left-long text-2xl"></i>
         </Link>
-      <div className="imgsec bg-(--bg2) h-70 w-full flex items-center justify-center rounded-b-2xl md:h-100 md:w-100 md:rounded-2xl">
+      <div className="imgsec bg-(--bg2) h-70 w-full flex items-center justify-center rounded-b-2xl md:h-120 md:w-120 md:rounded-2xl">
         <img src={food.image} alt={food.name} className="px-20 pb-10" />
       </div>
       </div>
@@ -80,15 +80,15 @@ useEffect(() => {
           </ul>
         </div>
         <div className="btns hidden md:flex gap-5">
-          <button className={`fav-btn flex p-2 rounded-xl items-center justify-center ${
+          <button className={`fav-btn flex p-2 rounded-xl items-center justify-center transition transform hover:scale-105 duration-300 ease-in-out ${
               on ? "bg-(--primary)" : "bg-(--bg2)"
             }`}
             onClick={() => setOn(!on)}
           >
             <i className="fa-regular fa-heart text-3xl"></i>
           </button>
-          <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl bg-(--bg2)">Add to cart</button>
-          <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl text-(--bg1) bg-(--primary) ">Order Now</button>
+          <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out bg-(--bg2)">Add to cart</button>
+          <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out text-(--bg1) bg-(--primary) ">Order Now</button>
 
         </div>
       </div>

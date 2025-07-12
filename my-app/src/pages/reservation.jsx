@@ -48,7 +48,7 @@ export default function Reservation() {
                   className="border bg-(--bg2) md:text-lg border-(--primary) font-thin px-4 py-2 rounded-xl"></textarea>
                 </label>
                 <button type="submit" 
-                className="bg-(--primary) text-(--bg1) font-bold py-2 rounded-xl md:text-lg hover:">
+                className="bg-(--primary) text-(--bg1) font-bold py-2 rounded-xl md:text-lg transition transform hover:scale-105 duration-300 ease-in-out">
                   Reserver
                 </button>
             </form>

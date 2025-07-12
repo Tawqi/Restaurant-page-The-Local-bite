@@ -5,7 +5,7 @@ export default function Card({ food }) {
   if (!food) return null;
   return (
     <>
-      <div className="card flex flex-col justify-between bg-(--bg2) rounded-2xl shadow p-4 h-100 w-[43vw] md:h-130 md:w-60">
+      <div className="card flex flex-col justify-between bg-(--bg2) rounded-2xl shadow transition-transform duration-300 ease-in-out hover:rotate-[2deg] hover:origin-top-left h-100 w-[43vw] p-4 md:h-130 md:w-60 md:p-6">
         <div className="flex flex-col gap-4">
           <div className="h-30 flex justify-center items-center md:h-36">
             <img src={food.image} alt={food.name} className="h-full"></img>
@@ -24,7 +24,7 @@ export default function Card({ food }) {
             <span className="text-xl">৳</span>
             {food.price}
           </h3>
-          <button className="text-sm text-(--bg1) bg-(--primary) font-semibold p-2 px-2 rounded-xl text-center shadow md:text-lg">
+          <button className="text-sm text-(--bg1) bg-(--primary) font-semibold p-2 px-2 rounded-xl text-center shadow transition transform hover:scale-105 duration-300 ease-in-out md:text-lg">
             Order Now
           </button>
         </div>
