@@ -55,7 +55,7 @@ export default function AdminPage() {
             className="border border-yellow-500 rounded-2xl p-3"
             id="image"
             name="image"
-            type="url"
+            type="text"
             placeholder="Image URL"
           />
 
