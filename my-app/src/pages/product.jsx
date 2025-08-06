@@ -10,7 +10,19 @@ export default function Product() {
   const [food, setFood] = useState(null);
   const [on, setOn] = useState(false); // for the toggle fav button
   const [Suggestin, setSuggestin] = useState({});
-  const navigate = useNavigate(); // for the retuen button function 
+
+  const [added, setAdded] = useState(false);
+
+const handleAdd = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  cart[food._id] = (cart[food._id] || 0) + 1; // use food._id
+  localStorage.setItem('cart', JSON.stringify(cart));
+  setAdded(true);
+  setTimeout(() => setAdded(false), 1000);
+};
+
+
+
 
   useEffect(() => {
     axios
@@ -24,7 +36,7 @@ export default function Product() {
 useEffect(() => {
   if (!food || !Array.isArray(food.category)) return;
 
-  setSuggestin({}); // 🧹 clear previous suggestions
+  setSuggestin({}); 
 
   food.category.forEach((category) => {
     axios
@@ -105,9 +117,9 @@ useEffect(() => {
           )}
         </div>
       </div>
-      <div className="bg-(--bg2) fixed bottom-0 w-full h-18 flex items-center justify-around gap-5 px-5 rounded-t-2xl md:hidden">
-          <button><i className="fas fa-cart-shopping text-2xl bg-(--bg3) p-3 rounded-xl"></i></button>
-          <button className="text-2xl font-semibold text-(--bg1) text-center w-full bg-(--primary) py-2 rounded-xl">Order Now</button>
+      <div className="bottom bar bg-(--bg2) fixed bottom-0 w-full h-18 flex items-center justify-around gap-5 px-5 rounded-t-2xl md:hidden">
+          <Link to="/cart" ><i className="fas fa-cart-shopping text-2xl bg-(--bg3) p-3 rounded-xl"></i></Link>
+          <button  onClick={handleAdd} className="text-2xl font-semibold text-(--bg1) text-center w-full bg-(--primary) py-2 rounded-xl">{added ? "Added!" : "Add to Cart"}</button>
       </div>
       <Footer />
     </>

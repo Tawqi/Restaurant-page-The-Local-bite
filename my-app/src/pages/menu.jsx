@@ -12,6 +12,7 @@ export default function Menu() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState(""); // search state
 
+
   useEffect(() => {
     axios.get('/api/categories')
       .then(res => {
@@ -27,7 +28,7 @@ export default function Menu() {
     if (cleanCategories.length === 0) return;
 
     cleanCategories.forEach(category => {
-      if(category === "All") return; // no need to fetch for 'All'
+      if(category === "All") return; 
       axios.get(`/api/fooditems/${category}`)
         .then(res => {
           setDishes(prev => ({
@@ -39,7 +40,6 @@ export default function Menu() {
     });
   }, [cleanCategories]);
 
-  // Helper to filter dishes by searchTerm
   function filterDishes(items) {
     if (!searchTerm) return items;
     return items.filter(food =>
@@ -90,7 +90,7 @@ export default function Menu() {
               return (
                 <div key={cat} className="flex flex-col gap-5">
                   <h2 className="text-2xl font-semibold">{cat}</h2>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap justify-evenly md:justify-normal gap-4">
                     {filteredFoods.length > 0 ? (
                       filteredFoods.map(food => (
                         <Link key={food._id} to={`/product/${food._id}`}>

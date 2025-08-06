@@ -5,6 +5,7 @@ import Location from './pages/location'
 import About from './pages/about'
 import Reservation from './pages/reservation'
 import AdminPage from './pages/adminPage'
+import Cart from './pages/cart'
 import ProductPage from './pages/product';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Route path='/location' element={<Location/>} />
       <Route path='/about' element={<About/>} />
       <Route path='/reservation' element={<Reservation/>} />
+      <Route path='/cart' element={<Cart />} />
       <Route path='/adminpage' element={<AdminPage />} />
       <Route path="/product/:id" element={<ProductPage />} />
      </Routes>

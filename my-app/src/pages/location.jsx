@@ -3,7 +3,7 @@ export default function Location() {
     return (
         <>
         <Nav />
-        <h1>This is the Location page</h1>
+        <h1>The Location page is not ready</h1>
         </>
     )
 }

@@ -9,7 +9,7 @@ import heroBG from '../contents/pexels-pixabay-262918.jpg';
 
 export default function Home() {
 const [dishes, setDishes] = useState({});
-const [categories, setCategories] = useState(["Special"]); // or fetch from backend later
+const [categories, setCategories] = useState(["Special"]); 
 
   useEffect(() => {
     if (categories.length === 0) return;

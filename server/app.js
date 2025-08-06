@@ -59,6 +59,24 @@ app.get("/api/fooditem/id/:id", (req, res) => {
     .catch(() => res.status(500).json({ error: "Item not found" }));
 });
 
+// Get multiple items by IDs (avoid conflict with category route)
+app.get('/api/fooditems/byids/:ids', async (req, res) => {
+  try {
+    const ids = req.params.ids.split(',');
+    if (ids.length === 0) return res.status(400).json({ error: "No IDs provided" });
+
+    const items = await FoodItemDBM.find({ _id: { $in: ids } });
+    res.json(items);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+;
+
+
+
+
 // --- React Routes fallback ---
 app.get(/^\/(?!api|images|adminpage).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
@@ -69,3 +87,5 @@ const MDBURL = process.env.MDBURL;
 mongoose.connect(MDBURL)
   .then(() => app.listen(3000, () => console.log("Server running on port 3000")))
   .catch(err => console.log(err));
+  
+
