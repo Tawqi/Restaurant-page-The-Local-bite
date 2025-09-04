@@ -42,6 +42,9 @@ export default function Nav() {
                 <li><Link to="/reservation" className='text-lg font-semibold'>
                 <button className='bg-(--primary) text-(--bg1) flex rounded-xl px-3 py-1 transition transform hover:scale-105 duration-300 ease-in-out'>Reservation</button>
                 </Link></li>
+                <li><Link to="/cart">
+          <i className="fas fa-cart-shopping text-2xl bg-(--bg3) p-3 rounded-xl"></i>
+        </Link></li>
             </ul>
         </div>
         </>
