@@ -1,5 +1,6 @@
 import axios from "axios";
-import Nav from "../components/Nav";
+import BNav from '../components/Bottom_Nav'
+import TNav from '../components/Top_Nav'
 import Card from "../components/card";
 import Footer from "../components/footer";
 import { useEffect, useState } from "react";
@@ -49,7 +50,8 @@ export default function Menu() {
 
   return (
     <>
-      <Nav />
+      <TNav />
+      <BNav />
       <div className="mx-5 flex flex-col gap-5">
         <div className="sec1 flex flex-col mt-5 gap-5">
           <h1 className="text-3xl text-(--primary) font-bold">Explore our menu</h1>
@@ -93,9 +95,7 @@ export default function Menu() {
                   <div className="flex flex-wrap justify-evenly md:justify-normal gap-4">
                     {filteredFoods.length > 0 ? (
                       filteredFoods.map(food => (
-                        <Link key={food._id} to={`/product/${food._id}`}>
                           <Card food={food} />
-                        </Link>
                       ))
                     ) : (
                       <p className="text-sm text-gray-400">No items found.</p>

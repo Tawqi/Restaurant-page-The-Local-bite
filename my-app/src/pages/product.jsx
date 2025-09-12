@@ -2,7 +2,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../components/card";
-import Nav from "../components/Nav";
+import BNav from "../components/Bottom_Nav";
+import TNav from "../components/Top_Nav";
 import Footer from "../components/footer";
 
 export default function Product() {
@@ -14,47 +15,45 @@ export default function Product() {
   const [added, setAdded] = useState(false);
 
   // const request = indexedDB.open('cart',1);
+  function addToCart(productId) {
+    const request = indexedDB.open("cart", 1);
 
-function addToCart(productId) {
-  const request = indexedDB.open("cart", 1);
-
-  request.onupgradeneeded = (e) => {
-    const db = e.target.result;
-    if (!db.objectStoreNames.contains("cart")) {
-      db.createObjectStore("cart", { keyPath: "id" });
-    }
-  };
-
-  request.onsuccess = (e) => {
-    const db = e.target.result;
-    const tx = db.transaction("cart", "readwrite");
-    const store = tx.objectStore("cart");
-
-    store.get(productId).onsuccess = (event) => {
-      let data = event.target.result;
-      if (data) {
-        data.quantity += 1;
-      } else {
-        data = { id: productId, quantity: 1 };
+    request.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains("cart")) {
+        db.createObjectStore("cart", { keyPath: "id" });
       }
-      store.put(data);
     };
 
-    tx.oncomplete = () => {
-      db.close();
-      console.log("Item added to cart successfully");
+    request.onsuccess = (e) => {
+      const db = e.target.result;
+      const tx = db.transaction("cart", "readwrite");
+      const store = tx.objectStore("cart");
+
+      store.get(productId).onsuccess = (event) => {
+        let data = event.target.result;
+        if (data) {
+          data.quantity += 1;
+        } else {
+          data = { id: productId, quantity: 1 };
+        }
+        store.put(data);
+      };
+
+      tx.oncomplete = () => {
+        db.close();
+        console.log("Item added to cart successfully");
+      };
+
+      tx.onerror = (err) => {
+        console.error("Transaction error:", err);
+      };
     };
 
-    tx.onerror = (err) => {
-      console.error("Transaction error:", err);
+    request.onerror = (err) => {
+      console.error("Database open error:", err);
     };
-  };
-
-  request.onerror = (err) => {
-    console.error("Database open error:", err);
-  };
-}
-
+  }
 
   const handleAdd = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || {};
@@ -96,7 +95,8 @@ function addToCart(productId) {
 
   return (
     <>
-      <Nav />
+      <TNav />
+      <BNav />
       <div className="flex flex-col md:flex-row gap-10 md:mx-5 md:mt-5">
         <div className="sec1 flex flex-col">
           <Link
@@ -149,8 +149,10 @@ function addToCart(productId) {
             >
               <i className="fa-regular fa-heart text-3xl"></i>
             </button>
-            <button onClick={() => addToCart(food._id)}
-              className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out bg-(--bg2)">
+            <button
+              onClick={() => addToCart(food._id)}
+              className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out bg-(--bg2)"
+            >
               Add to cart
             </button>
             <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out text-(--bg1) bg-(--primary) ">

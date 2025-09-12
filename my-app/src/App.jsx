@@ -3,6 +3,7 @@ import Home from './pages/home'
 import Menu from './pages/menu'
 import Location from './pages/location'
 import About from './pages/about'
+import Order from './pages/order'
 import Reservation from './pages/reservation'
 import AdminPage from './pages/adminPage'
 import Cart from './pages/cart'
@@ -18,6 +19,7 @@ function App() {
       <Route path='/about' element={<About/>} />
       <Route path='/reservation' element={<Reservation/>} />
       <Route path='/cart' element={<Cart />} />
+      <Route path='/order' element={<Order />} />
       <Route path='/adminpage' element={<AdminPage />} />
       <Route path="/product/:id" element={<ProductPage />} />
      </Routes>

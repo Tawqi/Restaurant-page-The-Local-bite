@@ -12,7 +12,6 @@ services:
     build:
       context: .
     environment:
-      - MDBURL=mongodb+srv://Tawqi:Pass0@cluster0.weqclte.mongodb.net/js-4?retryWrites=true&w=majority&appName=Cluster0
       # NODE_ENV: production
       
     ports:
