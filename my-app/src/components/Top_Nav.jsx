@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Top_Nav() {
   return (
@@ -18,16 +18,14 @@ export default function Top_Nav() {
               Menu
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/about" className="text-lg font-semibold">
               About
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/reservation" className="text-lg font-semibold">
-              <button className="bg-(--primary) text-(--bg1) flex rounded-xl px-3 py-1 transition transform hover:scale-105 duration-300 ease-in-out">
-                Reservation
-              </button>
+              Reservation
             </Link>
           </li>
           <li>

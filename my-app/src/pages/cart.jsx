@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TNav from "../components/Top_Nav";
 import Footer from "../components/footer";
 import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "axios";
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]); // [{id, quantity}]
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   // Open IndexedDB and get all cart items
   useEffect(() => {
@@ -29,16 +30,23 @@ export default function Cart() {
 
       getAllRequest.onsuccess = () => {
         const items = getAllRequest.result || [];
+        console.log("Cart items from IndexedDB:", items); // check mobile
         setCartItems(items);
 
-        if (items.length === 0) return;
+        if (items.length === 0) {
+          console.log("Cart is empty");
+          return;
+        }
 
         const ids = items.map((item) => item.id).join(",");
+        console.log("Fetching product details for IDs:", ids);
 
-        // Fetch product details
         axios
           .get(`/api/fooditems/byids/${ids}`)
-          .then((res) => setProducts(res.data))
+          .then((res) => {
+            console.log("Fetched products:", res.data);
+            setProducts(res.data);
+          })
           .catch((err) => console.error(err));
       };
 
@@ -94,9 +102,10 @@ export default function Cart() {
         {products.map((item) => (
           <div
             key={item._id}
-            className="flex justify-between items-center gap-3 bg-(--bg2) rounded-2xl p-3 mb-3"
+            className="flex justify-between items-center gap-3 bg-(--bg2) rounded-2xl p-3 mb-3 hover:cursor-default"
           >
-            <img src={item.image} alt="product image" className="w-20" />
+            <img onClick={() => navigate(`/product/${item._id}`)} 
+            src={item.image} alt="product image" className="w-20" />
             <div>
               <h3 className="font-semibold">{item.name}</h3>
               <p>৳{item.price.toFixed(2)}</p>
@@ -144,8 +153,10 @@ export default function Cart() {
               >
                 Go Back
               </Link>
-              <Link to="/order"
-              className="order_btn text-xl font-semibold text-(--bg1) text-center bg-(--primary) px-3 py-2 rounded-xl hover:cursor-pointer">
+              <Link
+                to="/order"
+                className="order_btn text-xl font-semibold text-(--bg1) text-center bg-(--primary) px-3 py-2 rounded-xl hover:cursor-pointer"
+              >
                 Order Now
               </Link>
             </div>
@@ -159,7 +170,10 @@ export default function Cart() {
         >
           Go Back
         </Link>
-        <Link to="/order" className="text-2xl font-semibold text-(--bg1) text-center w-full bg-(--primary) py-2 rounded-xl hover:cursor-pointer">
+        <Link
+          to="/order"
+          className="text-2xl font-semibold text-(--bg1) text-center w-full bg-(--primary) py-2 rounded-xl hover:cursor-pointer"
+        >
           Order Now
         </Link>
       </div>

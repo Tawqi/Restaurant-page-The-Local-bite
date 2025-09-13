@@ -7,8 +7,8 @@
     --bg3: hsl(0,0%,20%);
     --primary: hsl(40,100%,50%);
     --text1: hsl(0,0%,100%);
-    --text2: hsl(0,0%,90%);
-    --text3: hsl(0,0%,80%);
+    --text2: hsl(0,0%,80%);
+    --text3: hsl(0,0%,70%);
 }
 body {
     color: var(--text1);

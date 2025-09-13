@@ -15,7 +15,12 @@ export default function Product() {
   const [added, setAdded] = useState(false);
 
   // const request = indexedDB.open('cart',1);
-  function addToCart(productId) {
+  const addToCart = (e, productId) => {
+    e.stopPropagation();
+
+    setAdded(true); // immediate button feedback
+    setTimeout(() => setAdded(false), 1000);
+
     const request = indexedDB.open("cart", 1);
 
     request.onupgradeneeded = (e) => {
@@ -32,36 +37,25 @@ export default function Product() {
 
       store.get(productId).onsuccess = (event) => {
         let data = event.target.result;
-        if (data) {
-          data.quantity += 1;
-        } else {
-          data = { id: productId, quantity: 1 };
-        }
+        if (data) data.quantity += 1;
+        else data = { id: productId, quantity: 1 };
         store.put(data);
       };
 
-      tx.oncomplete = () => {
-        db.close();
-        console.log("Item added to cart successfully");
-      };
-
-      tx.onerror = (err) => {
-        console.error("Transaction error:", err);
-      };
+      tx.oncomplete = () => db.close();
+      tx.onerror = (err) => console.error("Transaction error:", err);
     };
 
-    request.onerror = (err) => {
-      console.error("Database open error:", err);
-    };
-  }
-
-  const handleAdd = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-    cart[food._id] = (cart[food._id] || 0) + 1; // use food._id
-    localStorage.setItem("cart", JSON.stringify(cart));
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1000);
+    request.onerror = (err) => console.error("Database open error:", err);
   };
+
+  // const handleAdd = () => {
+  //   const cart = JSON.parse(localStorage.getItem("cart")) || {};
+  //   cart[food._id] = (cart[food._id] || 0) + 1; // use food._id
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  //   setAdded(true);
+  //   setTimeout(() => setAdded(false), 1000);
+  // };
   useEffect(() => {
     axios
       .get(`/api/fooditem/id/${id}`)
@@ -150,14 +144,18 @@ export default function Product() {
               <i className="fa-regular fa-heart text-3xl"></i>
             </button>
             <button
-              onClick={() => addToCart(food._id)}
-              className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out bg-(--bg2)"
+              onClick={(e) => addToCart(e, food._id)}
+              className="text-2xl text-(--text1) bg-(--bg2) font-semibold px-5 py-2 min-w-35 rounded-xl text-center shadow transition transform hover:scale-105 duration-300 ease-in-out hover:cursor-pointer md:text-lg"
             >
-              Add to cart
+              {added ? "Added!" : "Add to Cart"}
             </button>
-            <button className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out text-(--bg1) bg-(--primary) ">
+            <Link
+              to="/order"
+              onClick={() => addToCart(food._id)}
+              className="text-2xl font-semibold px-5 py-2 text-center rounded-xl transition transform hover:scale-105 duration-300 ease-in-out text-(--bg1) bg-(--primary) "
+            >
               Order Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -167,11 +165,7 @@ export default function Product() {
           {Object.values(Suggestin)
             .flat()
             .map((item) =>
-              item._id !== food._id ? (
-                <Link to={`/product/${item._id}`} key={item._id}>
-                  <Card food={item} />
-                </Link>
-              ) : null
+              item._id !== food._id ? <Card food={item} /> : null
             )}
         </div>
       </div>
@@ -180,10 +174,10 @@ export default function Product() {
           <i className="fas fa-cart-shopping text-2xl bg-(--bg3) p-3 rounded-xl"></i>
         </Link>
         <button
-          onClick={() => addToCart(food._id)}
+          onClick={(e) => addToCart(e, food._id)}
           className="text-2xl font-semibold text-(--bg1) text-center w-full bg-(--primary) py-2 rounded-xl"
         >
-          Add to Cart
+          {added ? "Added!" : "Add to Cart"}
         </button>
       </div>
       <Footer />
