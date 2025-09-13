@@ -37,7 +37,7 @@ export default function Cart() {
 
         // Fetch product details
         axios
-          .get(`http://localhost:3000/api/fooditems/byids/${ids}`)
+          .get(`/api/fooditems/byids/${ids}`)
           .then((res) => setProducts(res.data))
           .catch((err) => console.error(err));
       };
