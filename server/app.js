@@ -6,6 +6,8 @@ require("dotenv").config(); // Load environment variables
 const cors = require("cors"); // Import CORS middleware
 
 const FoodItemDBM = require("./models/foodItems"); // Import FoodItem model
+const ordersDBM = require("./models/orders"); 
+const { error } = require("console");
 
 app.use(cors()); // Enable CORS for cross-origin requests
 app.use(express.json()); // Parse JSON request bodies
@@ -79,6 +81,38 @@ app.get("/api/fooditems/byids/:ids", async (req, res) => {
     res.status(500).json({ error: "Server error" }); // Send error response
   }
 });
+
+// Order api
+
+app.post("/api/send_orders", async (req, res) => {
+  try {
+    const { product_id, name, phone, email, city, address } = req.body;
+
+    if (!product_id || !name || !phone || !city || !address) {
+      return res.status(400).json({ error: "All required fields must be filled" });
+    }
+
+    const order = new ordersDBM({ product_id, name, phone, email, city, address });
+    const savedOrder = await order.save();
+
+    res.status(201).json({ message: "Order received", order: savedOrder });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("api/view_orders",(req,res) => {
+  ordersDBM.find()
+   .then((data) => res,jason(data))
+   .catch(() => res.status(500).json({error: "Orders not found"}))
+})
+
+app.post("api/view_orders/customer/:name",(req,res) => {
+  ordersDBM.find()
+   .then((data) => res,jason(data))
+   .catch(() => res.status(500).json({error: "Orders not found"}))
+})
 
 // --- React Routes fallback ---
 app.get(/^\/(?!api|images|adminpage).*/, (req, res) => {

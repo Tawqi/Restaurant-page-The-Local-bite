@@ -49,13 +49,6 @@ export default function Product() {
     request.onerror = (err) => console.error("Database open error:", err);
   };
 
-  // const handleAdd = () => {
-  //   const cart = JSON.parse(localStorage.getItem("cart")) || {};
-  //   cart[food._id] = (cart[food._id] || 0) + 1; // use food._id
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  //   setAdded(true);
-  //   setTimeout(() => setAdded(false), 1000);
-  // };
   useEffect(() => {
     axios
       .get(`/api/fooditem/id/${id}`)
@@ -128,7 +121,7 @@ export default function Product() {
             </h2>
             <ul className="list-disc pl-5 flex flex-col gap-1">
               {food.ingredients.map((item, i) => (
-                <li className="text-(--text2) font-thin md:text-lg" key={i}>
+                <li className="text-(--text3) font-lite md:text-lg" key={i}>
                   {item}
                 </li>
               ))}

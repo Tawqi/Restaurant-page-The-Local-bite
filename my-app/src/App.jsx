@@ -5,9 +5,12 @@ import Location from './pages/location'
 import About from './pages/about'
 import Order from './pages/order'
 import Reservation from './pages/reservation'
-import AdminPage from './pages/adminPage'
 import Cart from './pages/cart'
 import ProductPage from './pages/product';
+import Dashboard from "./admin/dashboard";
+import Orders from "./admin/orders";
+import Product_add from './admin/product_add'
+
 
 function App() {
   return (
@@ -20,8 +23,12 @@ function App() {
       <Route path='/reservation' element={<Reservation/>} />
       <Route path='/cart' element={<Cart />} />
       <Route path='/order' element={<Order />} />
-      <Route path='/adminpage' element={<AdminPage />} />
       <Route path="/product/:id" element={<ProductPage />} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/orders" element={<Orders />} />
+      <Route path='/admin/product_add' element={<Product_add />} />
+
+      
      </Routes>
     </>
   )

@@ -6,6 +6,39 @@ export default function Order() {
   const [city, setCity] = useState("");
   const [cartItems, setCartItems] = useState([]); // [{id, quantity}]
   const [products, setProducts] = useState([]);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+
+  // Function to submit order
+  const handleConfirmOrder = async () => {
+    if (!city || !name || !phone || !address || cartItems.length === 0) {
+      alert("Please fill all required fields and have items in cart.");
+      return;
+    }
+
+    const orderData = {
+      product_id: products.map((p) => p._id),
+      name,
+      phone,
+      email,
+      city,
+      address,
+    };
+
+    try {
+      const res = await axios.post("/api/send_orders", orderData);
+      alert("Order received!");
+      console.log(res.data);
+      // Optionally clear cart
+      setCartItems([]);
+      setProducts([]);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit order.");
+    }
+  };
 
   const cities = [
     "Dhaka",
@@ -78,38 +111,79 @@ export default function Order() {
         {/* Customer info */}
         <div className="flex flex-col md:flex-row gap-5">
           <div className="flex flex-col gap-4 w-full md:w-1/2">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="p-3 w-full bg-(--bg2) rounded-xl"
-            />
-            <input
-              type="text"
-              placeholder="Phone Number"
-              className="p-3 w-full bg-(--bg2) rounded-xl"
-            />
-            <select
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="p-3 w-full bg-(--bg2) rounded-xl"
-            >
-              <option value="">Select City</option>
-              {cities.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              placeholder="Address"
-              className="p-3 w-full bg-(--bg2) rounded-xl"
-            />
+            <div className="flex flex-col gap-4">
+              <label className="flex flex-col">
+                <span className="mb-1 px-3 font-medium">Full Name:</span>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                  className="p-3 w-full bg-(--bg2) rounded-xl"
+                  required
+                />
+              </label>
+
+              <label className="flex flex-col">
+                <span className="mb-1 px-3 font-medium">Phone Number:</span>
+                <input
+                  type="text"
+                  placeholder="Enter your phone number"
+                  name="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="p-3 w-full bg-(--bg2) rounded-xl"
+                  required
+                />
+              </label>
+
+              <label className="flex flex-col">
+                <span className="mb-1 px-3 font-medium">Email address:</span>
+                <input
+                  type="email"
+                  placeholder="Enter your email address (optional)"
+                  name="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="p-3 w-full bg-(--bg2) rounded-xl"
+                />
+              </label>
+
+              <label className="flex flex-col">
+                <span className="mb-1 px-3 font-medium">City:</span>
+                <select
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  name="city"
+                  className="p-3 w-full bg-(--bg2) rounded-xl"
+                  required
+                >
+                  <option value="">Select City</option>
+                  {cities.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="flex flex-col">
+                <span className="mb-1 px-3 font-medium">
+                  Address in detail:
+                </span>
+                <input
+                  type="text"
+                  placeholder="Enter your address in detail"
+                  name="address"
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="p-3 w-full bg-(--bg2) rounded-xl"
+                  required
+                />
+              </label>
+            </div>
           </div>
 
           {/* Products */}
           <div className="flex flex-col gap-3 w-full md:w-1/2">
-            <h3 className="text-xl font-semibold">Products</h3>
+            <h3 className="text-xl font-semibold">Your cart</h3>
             {products.length === 0 && <p>Your cart is empty.</p>}
 
             {products.map((item) => (
@@ -150,7 +224,10 @@ export default function Order() {
               </div>
             )}
 
-            <button className="mt-4 w-full bg-green-500 text-white p-3 rounded-xl font-semibold hover:bg-green-600 transition">
+            <button
+              onClick={handleConfirmOrder}
+              className="mt-4 w-full bg-green-500 text-white p-3 rounded-xl font-semibold hover:bg-green-600 transition"
+            >
               Confirm Order
             </button>
           </div>
