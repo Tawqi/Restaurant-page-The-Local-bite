@@ -16,7 +16,6 @@ export default function Home() {
     if (categories.length === 0) return;
 
     categories.forEach((category) => {
-      console.log("Fetching category:", category);
       axios
         .get(`/api/fooditems/${category}`)
         .then((res) => {

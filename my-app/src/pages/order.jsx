@@ -11,35 +11,6 @@ export default function Order() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
-  // Function to submit order
-  const handleConfirmOrder = async () => {
-    if (!city || !name || !phone || !address || cartItems.length === 0) {
-      alert("Please fill all required fields and have items in cart.");
-      return;
-    }
-
-    const orderData = {
-      product_id: products.map((p) => p._id),
-      name,
-      phone,
-      email,
-      city,
-      address,
-    };
-
-    try {
-      const res = await axios.post("/api/send_orders", orderData);
-      alert("Order received!");
-      console.log(res.data);
-      // Optionally clear cart
-      setCartItems([]);
-      setProducts([]);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to submit order.");
-    }
-  };
-
   const cities = [
     "Dhaka",
     "Chattogram",
@@ -54,6 +25,50 @@ export default function Order() {
     "Gazipur",
     "Cox’s Bazar",
   ];
+
+  const deliveryCharge = 150;
+
+    const getQuantity = (id) => {
+    const item = cartItems.find((i) => i.id === id);
+    return item ? item.quantity : 0;
+  };
+
+  const totalPrice = products.reduce(
+    (sum, item) => sum + item.price * getQuantity(item._id),
+    0
+  );
+
+  const totalPriceWithDelivery = totalPrice + deliveryCharge;
+
+  // Function to submit order
+  const handleConfirmOrder = async () => {
+    if (!city || !name || !phone || !address || cartItems.length === 0) {
+      alert("Please fill all required fields and have items in cart.");
+      return;
+    }
+
+    const orderData = {
+      product_id: products.map((p) => p._id),
+      name,
+      phone,
+      email,
+      city,
+      address,
+      total: totalPriceWithDelivery.toFixed(2)
+    };
+
+    try {
+      const res = await axios.post("/api/send_orders", orderData);
+      alert("Order received!");
+      console.log(res.data);
+      setCartItems([]);
+      setProducts([]);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit order.");
+    }
+  };
+
 
   // Fetch cart items from IndexedDB
   useEffect(() => {
@@ -89,15 +104,7 @@ export default function Order() {
     };
   }, []);
 
-  const getQuantity = (id) => {
-    const item = cartItems.find((i) => i.id === id);
-    return item ? item.quantity : 0;
-  };
 
-  const totalPrice = products.reduce(
-    (sum, item) => sum + item.price * getQuantity(item._id),
-    0
-  );
 
   return (
     <>
@@ -219,7 +226,7 @@ export default function Order() {
                 </div>
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total:</span>
-                  <span>৳{(totalPrice + 150).toFixed(2)}</span>
+                  <span>৳{totalPriceWithDelivery}</span>
                 </div>
               </div>
             )}

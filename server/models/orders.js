@@ -33,6 +33,11 @@ const ordersSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    total: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   { timestamps: true }
 );

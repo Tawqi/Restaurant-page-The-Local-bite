@@ -86,13 +86,13 @@ app.get("/api/fooditems/byids/:ids", async (req, res) => {
 
 app.post("/api/send_orders", async (req, res) => {
   try {
-    const { product_id, name, phone, email, city, address } = req.body;
+    const { product_id, name, phone, email, city, address, total } = req.body;
 
     if (!product_id || !name || !phone || !city || !address) {
       return res.status(400).json({ error: "All required fields must be filled" });
     }
 
-    const order = new ordersDBM({ product_id, name, phone, email, city, address });
+    const order = new ordersDBM({ product_id, name, phone, email, city, address, total });
     const savedOrder = await order.save();
 
     res.status(201).json({ message: "Order received", order: savedOrder });
@@ -102,13 +102,13 @@ app.post("/api/send_orders", async (req, res) => {
   }
 });
 
-app.post("api/view_orders",(req,res) => {
+app.get("/api/view_orders",(req,res) => {
   ordersDBM.find()
-   .then((data) => res,jason(data))
+   .then((data) => res.json(data))
    .catch(() => res.status(500).json({error: "Orders not found"}))
 })
 
-app.post("api/view_orders/customer/:name",(req,res) => {
+app.post("/api/view_orders/customer/:name",(req,res) => {
   ordersDBM.find()
    .then((data) => res,jason(data))
    .catch(() => res.status(500).json({error: "Orders not found"}))
