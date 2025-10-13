@@ -66,7 +66,7 @@ export default function Menu() {
             Explore our variety of delicious dishes, made fresh with quality
             ingredients.
           </p>
-          <div className="search flex items-center border border-(--primary) px-2 py-1 md:px-4 md:py-2 md:text-xl rounded-xl">
+          <div className="search flex items-center bg-(--bg2) px-2 py-1 md:px-4 md:py-2 md:text-xl rounded-xl">
             <i className="fas fa-magnifying-glass"></i>
             <input
               className="px-3 w-full"

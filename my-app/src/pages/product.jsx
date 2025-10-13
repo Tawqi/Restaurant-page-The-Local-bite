@@ -121,7 +121,7 @@ export default function Product() {
             </h2>
             <ul className="list-disc pl-5 flex flex-col gap-1">
               {food.ingredients.map((item, i) => (
-                <li className="text-(--text3) font-lite md:text-lg" key={i}>
+                <li className="text-(--text3) md:text-lg" key={i}>
                   {item}
                 </li>
               ))}

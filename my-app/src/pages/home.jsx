@@ -40,7 +40,7 @@ export default function Home() {
         <h1 className="text-[2.7rem] font-bold text-center lg:text-[4rem]">
           The <span className="text-(--primary)">Local</span> Bite
         </h1>
-        <p className="text-center text-(--text2) font-semibold text-shadow lg:text-[1.4rem]">
+        <p className="text-center text-(--text1) font-semibold text-shadow lg:text-[1.4rem]">
           Serving fresh, flavorful dishes made with local ingredients in a warm,
           welcoming space.
         </p>

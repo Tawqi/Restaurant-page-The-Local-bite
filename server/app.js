@@ -19,7 +19,7 @@ app.use("/images", express.static(path.join(__dirname, "public", "images"))); //
 app.use("/adminpage", express.static(path.join(__dirname, "public"))); // Serve admin page from public
 
 // --- API Routes ---
-app.post("/addProduct", (req, res) => {
+app.post("/api/addProduct", (req, res) => {
   // Route to add new product
   const categories = req.body.category.split(",").map((c) => c.trim()); // Split and trim categories
   const ingredients = req.body.ingredients.split(",").map((i) => i.trim()); // Split and trim ingredients
