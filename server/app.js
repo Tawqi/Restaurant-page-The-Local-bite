@@ -1,4 +1,4 @@
-  const express = require("express"); // Import Express framework
+const express = require("express"); // Import Express framework
 const app = express(); // Initialize Express app
 const path = require("path"); // Import path module for file paths
 const mongoose = require("mongoose"); // Import Mongoose for MongoDB
@@ -13,34 +13,34 @@ app.use(cors()); // Enable CORS for cross-origin requests
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
-// Serve static files
+// Server static files
 app.use(express.static(path.join(__dirname, "dist"))); // Serve static files from dist folder
 app.use("/images", express.static(path.join(__dirname, "public", "images"))); // Serve images from public/images
 app.use("/adminpage", express.static(path.join(__dirname, "public"))); // Serve admin page from public
 
 // --- API Routes ---
-app.post("/api/addProduct", (req, res) => {
-  // Route to add new product
-  const categories = req.body.category.split(",").map((c) => c.trim()); // Split and trim categories
-  const ingredients = req.body.ingredients.split(",").map((i) => i.trim()); // Split and trim ingredients
+// app.post("/api/addProduct", (req, res) => {
+//   // Route to add new product
+//   const categories = req.body.category.split(",").map((c) => c.trim()); // Split and trim categories
+//   const ingredients = req.body.ingredients.split(",").map((i) => i.trim()); // Split and trim ingredients
 
-  const newProduct = new FoodItemDBM({
-    // Create new product instance
-    ...req.body, // Spread request body
-    category: categories, // Set categories array
-    ingredients: ingredients, // Set ingredients array
-    available: req.body.available === "true", // Convert available to boolean
-  });
+//   const newProduct = new FoodItemDBM({
+//     // Create new product instance
+//     ...req.body, // Spread request body
+//     category: categories, // Set categories array
+//     ingredients: ingredients, // Set ingredients array
+//     available: req.body.available === "true", // Convert available to boolean
+//   });
 
-  newProduct
-    .save() // Save product to database
-    .then(() => res.send("Product saved")) // Send success response
-    .catch((err) => {
-      // Handle errors
-      console.error(err); // Log error
-      res.status(500).send("Error saving product"); // Send error response
-    });
-});
+//   newProduct
+//     .save() // Save product to database
+//     .then(() => res.send("Product saved")) // Send success response
+//     .catch((err) => {
+//       // Handle errors
+//       console.error(err); // Log error
+//       res.status(500).send("Error saving product"); // Send error response
+//     });
+// });
 
 app.get("/api/categories", async (req, res) => {
   // Route to get all categories
@@ -84,23 +84,23 @@ app.get("/api/fooditems/byids/:ids", async (req, res) => {
 
 // Order api
 
-app.post("/api/send_orders", async (req, res) => {
-  try {
-    const { product_id, name, phone, email, city, address, total } = req.body;
+// app.post("/api/send_orders", async (req, res) => {
+//   try {
+//     const { product_id, name, phone, email, city, address, total } = req.body;
 
-    if (!product_id || !name || !phone || !city || !address) {
-      return res.status(400).json({ error: "All required fields must be filled" });
-    }
+//     if (!product_id || !name || !phone || !city || !address) {
+//       return res.status(400).json({ error: "All required fields must be filled" });
+//     }
 
-    const order = new ordersDBM({ product_id, name, phone, email, city, address, total });
-    const savedOrder = await order.save();
+//     const order = new ordersDBM({ product_id, name, phone, email, city, address, total });
+//     const savedOrder = await order.save();
 
-    res.status(201).json({ message: "Order received", order: savedOrder });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+//     res.status(201).json({ message: "Order received", order: savedOrder });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// });
 
 app.get("/api/view_orders",(req,res) => {
   ordersDBM.find()
@@ -110,7 +110,7 @@ app.get("/api/view_orders",(req,res) => {
 
 app.post("/api/view_orders/customer/:name",(req,res) => {
   ordersDBM.find()
-   .then((data) => res,jason(data))
+   .then((data) => res,json(data))
    .catch(() => res.status(500).json({error: "Orders not found"}))
 })
 
